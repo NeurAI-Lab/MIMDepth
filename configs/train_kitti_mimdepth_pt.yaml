@@ -1,0 +1,79 @@
+# Copyright © NavInfo Europe 2023.
+arch:
+  max_epochs: 20
+checkpoint:
+  filepath: /output/mimdepth
+datasets:
+  augmentation:
+    image_shape: (192, 640)
+    jittering: (0.2, 0.2, 0.2, 0.1)
+    mim_common: ''
+    mim_mask_ratio:
+    - 0.25
+    -
+    mim_mask_size:
+    - 16
+    -
+    mim_strategy:
+    - blockwise
+    - ''
+  test:
+    dataset:
+    - KITTI
+    depth_type:
+    - velodyne
+    path:
+    - /data/KITTI/raw_data/sync
+    split:
+    - data_splits/eigen_test_files.txt
+  train:
+    batch_size: 12
+    dataset:
+    - KITTI
+    depth_type:
+    - velodyne
+    path:
+    - /data/KITTI/raw_data/sync
+    split:
+    - data_splits/eigen_zhou_files.txt
+  validation:
+    dataset:
+    - KITTI
+    depth_type:
+    - velodyne
+    path:
+    - /data/raw_data/sync
+    split:
+    - data_splits/eigen_val_files.txt
+    - data_splits/eigen_test_files.txt
+model:
+  depth_net:
+    name: DepthMTSfMLearner
+    transformer_features: 96
+    transformer_model: deit-base
+    version: pt
+  loss:
+    padding_mode: border
+  name: SelfSupModel
+  optimizer:
+    depth:
+      lr: 1e-5
+      weight_decay: 0.0
+    name: AdamW
+    pose:
+      lr: 1e-5
+      weight_decay: 0.0
+  params:
+    crop: garg
+    max_depth: 80.0
+    min_depth: 0.0
+  pose_net:
+    name: PoseMTSfMLearner
+    transformer_model: deit-base
+    version: pt
+  pretrained_model_dir: /input/pretrained/
+  scheduler:
+    T_max: -1
+    gamma: 0.1
+    name: StepLR
+    step_size: 15
