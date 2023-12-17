@@ -22,7 +22,7 @@ make docker-build
 ```
 
 ## Training
-MIMDepth is training in a self-supervised manner from videos. 
+MIMDepth is trained in a self-supervised manner from videos. 
 For training, utilize a `.yaml` config file or a `.ckpt` model checkpoint file with `scripts/train.py`.
 ```
 python scripts/train.py <config_file.yaml or model_checkpoint.ckpt>
